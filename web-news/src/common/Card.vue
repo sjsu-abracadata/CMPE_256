@@ -1,6 +1,6 @@
 <template>
-  <div class="col-sm-10 m-2">
-    <div class="card" v-for="(item, index) in paginatedItems" :key="index">
+  <div class="col-sm-12">
+    <div class="card mb-2" v-for="(item, index) in paginatedItems" :key="index">
       <!-- <div class="card-header float-start">{{ result.headline }}</div> -->
       <div class="card-body">
         <h5 class="card-title">
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-
+    <br>
     <b-pagination
        @change="onPageChanged" :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0"
     ></b-pagination>
@@ -41,7 +41,7 @@ export default {
     return {
       resultValues: [],
       paginatedItems: this.results,
-      perPage: 4,
+      perPage: 3,
       totalRows: this.results.length,
       currentPage: 1
     };
