@@ -10,10 +10,11 @@
           aria-label="Recipient's username"
           aria-describedby="button-addon2"
         />
-        <button class="btn btn-primary" type="button" id="button-addon2">
+        <button class="btn btn-primary" type="button" id="button-addon2" @click="searchFilter()">
           Search
         </button>
       </div>
+
       <div class="row">
         <div class="col-md-4 text-left">Search by Authors</div>
         <div class="col-md-4 text-left">Search by Sources</div>
@@ -33,8 +34,6 @@
       <div class="row">
         <Card
           :results="results"
-          :per-page="perPage"
-          :current-page="currentPage"
         />
       </div>
     </div>
@@ -47,6 +46,7 @@ import Dropdown from "../common/Dropdown.vue";
 import Card from "../common/Card.vue";
 import Navbar from "../common/Navbar.vue";
 import Datepicker from "../common/Datepicker.vue";
+import axios from 'axios'
 export default {
   name: "HelloWorld",
   props: {
@@ -173,6 +173,20 @@ export default {
       ],
     };
   },
+  methods: {
+    searchFilter () {
+      
+    }
+  },
+  mounted () {
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    axios.get('http://news-articles-app-data-mining.herokuapp.com/newyorktimes/')
+    .then(response => {
+      console.log(response.data)
+    }, error => {
+      console.error(error)
+    })
+  }
 };
 </script>
 
