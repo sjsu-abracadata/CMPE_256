@@ -1,0 +1,7 @@
+postgres_database:
+  username: 'doadmin'
+  password: 'AKLjQVuGpoGQ1e3a'
+  host: 'db-postgresql-sfo2-60935-do-user-10277346-0.b.db.ondigitalocean.com'
+  port: '25060'
+  database: 'defaultdb'
+  sslmode: 'require'

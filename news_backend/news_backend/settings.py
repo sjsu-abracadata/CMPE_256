@@ -13,6 +13,11 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import yaml
+from decouple import config
+import dj_database_url
+import django_heroku
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -22,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-rf9&m#bwv9!n_mr3q7ckn#dzpe9k@dp=vx(e@)1jcsg!k1#0w('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -36,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',  # django rest framework app,
     'api_services',  # app
+    'corsheaders', # cors header api
 ]
 
 MIDDLEWARE = [
@@ -46,9 +52,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # whitenoise
+    'corsheaders.middleware.CorsMiddleware', # cors
 ]
 
 ROOT_URLCONF = 'news_backend.urls'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 TEMPLATES = [
     {
@@ -71,12 +80,29 @@ WSGI_APPLICATION = 'news_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
+config_file = {
+    'username': 'doadmin',
+    'password': 'AKLjQVuGpoGQ1e3a',
+    'host': 'db-postgresql-sfo2-60935-do-user-10277346-0.b.db.ondigitalocean.com',
+    'port': '25060',
+    'database': 'defaultdb',
+    'sslmode': 'require'
+}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config_file['database'],
+        'USER': config_file['username'],
+        'PASSWORD': config_file['password'],
+        'HOST': config_file['host'],
+        'PORT': config_file['port']
     }
 }
+# database connection check in seconds
+db_from_env = dj_database_url.config(conn_max_age=1000)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -122,7 +148,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # AWS S3 BUCKETS SETTINGS
-X_FRAME_OPTIONS = 'SAMEORIGIN'
+# X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 LOGGING = {
     'version': 1,
@@ -142,3 +168,7 @@ LOGGING = {
         },
     },
 }
+
+CORS_ALLOWED_ORIGINS = ['*']
+CORS_ORIGIN_ALLOW_ALL = True
+django_heroku.settings(locals())
