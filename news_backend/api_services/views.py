@@ -11,7 +11,7 @@ import json
 import pymongo
 import warnings
 
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
 
 
 # from Backend.data_pipeline.database_tables.database_records import NewsArticle
@@ -21,19 +21,20 @@ class NewYorkArticlesCountViews(APIView):
         print(request.data)
         # connect to the mongo client
         client = pymongo.MongoClient(
-            'mongodb+srv://dataminingadmin:fall2021project@cluster0.ngjps.mongodb.net/newyorktimes')
+            "mongodb+srv://dataminingadmin:fall2021project@cluster0.ngjps.mongodb.net/newyorktimes"
+        )
 
         # get the database
-        database = client['newyorktimes']
+        database = client["newyorktimes"]
 
         # get collection weekly_demand
         weekly_demand_collection = database.get_collection("news_articles")
         total_count = weekly_demand_collection.find().count()
 
         record = weekly_demand_collection.find_one()
-        return Response({"status": "success",
-                         "data": total_count},
-                        status=status.HTTP_200_OK)
+        return Response(
+            {"status": "success", "data": total_count}, status=status.HTTP_200_OK
+        )
 
     def post(self, request):
         pass
@@ -42,14 +43,31 @@ class NewYorkArticlesCountViews(APIView):
 class CNBCArticlesCountViews(APIView):
     def get(self, request):
         # connect to the mongo client
-        client = pymongo.MongoClient('mongodb+srv://dataminingadmin:fall2021project@cluster1.ngjps.mongodb.net/cnbc')
+        client = pymongo.MongoClient(
+            "mongodb+srv://dataminingadmin:fall2021project@cluster1.ngjps.mongodb.net/cnbc"
+        )
 
         # get the database
-        database = client['cnbc']
+        database = client["cnbc"]
         # get collection weekly_demand
+        # print(database.objects.find())
         weekly_demand_collection = database.get_collection("news_article")
-        total_count = weekly_demand_collection.find().count()
-        record = weekly_demand_collection.find_one()
-        return Response({"status": "success",
-                         "data": {total_count}},
-                        status=status.HTTP_200_OK)
+        data = []
+        for result in weekly_demand_collection.find()[:10]:
+            data.append(
+                {
+                    "headline": result["article_title"],
+                    "body": result["article_summary"],
+                    "authors": result["article_authors"],
+                    "published_timestamp": result["article_published_date"],
+                    "url": result["article_url"],
+                    "source": result["source_name"],
+                }
+            )
+        # print(data)
+        # total_count = weekly_demand_collection.find().count()
+        # record = weekly_demand_collection.find_one()
+        return Response(
+            data=data,
+            status=status.HTTP_200_OK,
+        )
