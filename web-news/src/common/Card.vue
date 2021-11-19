@@ -22,9 +22,13 @@
         </div>
       </div>
     </div>
-    <br>
+    <br />
     <b-pagination
-       @change="onPageChanged" :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0"
+      @change="onPageChanged"
+      :total-rows="totalRows"
+      :per-page="perPage"
+      v-model="currentPage"
+      class="my-0"
     ></b-pagination>
   </div>
 </template>
@@ -33,43 +37,45 @@
 export default {
   Name: "Card",
   props: {
-    results: Array
+    results: Array,
   },
-  component: {
-  },
+  component: {},
   data() {
     return {
       resultValues: [],
       paginatedItems: this.results,
       perPage: 3,
       totalRows: this.results.length,
-      currentPage: 1
+      currentPage: 1,
     };
   },
   watch: {
     results() {
-      this.paginatedItems = this.results
-    }
+      this.paginatedItems = this.results;
+    },
   },
   computed: {
     pageCount() {
       let l = this.totalRows,
         s = this.perPage;
       return Math.floor(l / s);
-    }
+    },
   },
-  mounted(){
-    this.paginate(this.perPage, 0)
+  mounted() {
+    this.paginate(this.perPage, 0);
   },
   methods: {
-    paginate (page_size, page_number) {
-      let itemsToParse = this.results
-      this.paginatedItems = itemsToParse.slice(page_number * page_size, (page_number + 1) * page_size);
+    paginate(page_size, page_number) {
+      let itemsToParse = this.results;
+      this.paginatedItems = itemsToParse.slice(
+        page_number * page_size,
+        (page_number + 1) * page_size
+      );
     },
-    onPageChanged(page){
-      this.paginate(this.perPage, page - 1)
-    }
-  }
+    onPageChanged(page) {
+      this.paginate(this.perPage, page - 1);
+    },
+  },
 };
 </script>
 
