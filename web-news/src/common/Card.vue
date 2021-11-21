@@ -82,6 +82,7 @@ export default {
   watch: {
     results() {
       this.paginatedItems = this.results;
+      this.totalRows = this.results.length
     },
   },
   computed: {

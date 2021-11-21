@@ -42,17 +42,21 @@
         </div>
         <div class="row">
           <div class="col-md-4">
-            <Dropdown :optionslist="source" :model="sourcesVal" @change="showVal()"/>
+            <Dropdown :optionslist="source" :model="sourcesVal" type="source"/>
           </div>
           <div class="col-md-4">
-            <Dropdown :optionslist="authors" />
+            <Dropdown
+              :optionslist="authors"
+              :model="authorsval"
+              type="authors"
+            />
           </div>
           <div class="col-md-4">
             <Datepicker />
           </div>
         </div>
       </div>
-      <DashboardCards v-if="!showFilter"/>
+      <DashboardCards v-if="!showFilter" />
       <div class="row" v-if="showFilter">
         <Card :results="results" />
       </div>
@@ -68,8 +72,9 @@ import Navbar from "../common/Navbar.vue";
 import Datepicker from "../common/Datepicker.vue";
 import DashboardCards from "../common/DashboardCards.vue";
 import axios from "axios";
-import eventBus from '../common/Eventbus'
-import _ from 'lodash'
+import eventBus from "../common/Eventbus";
+import _ from "lodash";
+import moment from "moment";
 export default {
   name: "HelloWorld",
   props: {
@@ -84,28 +89,36 @@ export default {
   },
   data() {
     return {
-      source: ["CNBC", "New York Times"],
-      authors: ["Swathi", "Yash", "Aryan"],
+      source: ["CNBC", "Newyork Times"],
+      authors: [],
       perPage: 5,
       currentPage: 1,
       results: [],
       switchValue: false,
       showFilter: false,
-      searchResult: '',
-      sourcesVal: '',
-      originalResults: []
+      searchResult: "",
+      sourcesVal: "",
+      originalResults: [],
+      authorsval: "",
     };
   },
   methods: {
-    showVal () {
-      console.log(this.sourcesVal)
+    showVal() {
+      console.log(this.sourcesVal);
     },
-    searchFilter () {
-      axios.get(`http://127.0.0.1:8000/searchallrecords/${this.searchResult}`)
-      .then(response => {
-        this.results = response.data
-        this.originalResults.push(...response.data)
-      })
+    searchFilter() {
+      axios
+        .get(`http://127.0.0.1:8000/searchallrecords/${this.searchResult}`)
+        .then((response) => {
+          _.forEach(response.data, (value) => {
+            this.authors.push(...value.authors);
+            this.authors = _.uniq(this.authors);
+          });
+          this.results = response.data;
+          this.originalResults = response.data;
+          this.switchValue = true;
+          this.showFilter = true;
+        });
     },
     showFiltersChange() {
       this.showFilter = this.switchValue;
@@ -130,25 +143,65 @@ export default {
         }
       );
     },
-    filterSource (value) {
-      this.results = this.originalResults
-      if(value === 'CNBC') this.results = _.filter(this.results, {'source': 'CNBC'})
-      else this.results = _.filter(this.resullts, {'source': 'Newyork Times'})
-    }
+    filterSource(value) {
+      this.results = this.originalResults;
+      if (value === "CNBC") {
+        this.results = _.filter(this.results, { source: "CNBC" });
+        let author = [];
+        _.forEach(this.results, (value) => {
+          author.push(...value.authors);
+        });
+        this.authors = author;
+        this.authors = _.uniq(this.authors);
+      } else if (value === "NY")
+        this.results = _.filter(this.results, { source: "Newyork Times" });
+    },
+    filterAuth() {
+      let dummy = [];
+      if (this.sourcesVal) {
+        _.forEach(this.originalResults, (value) => {
+          if (_.includes(value.authors, this.authorsval)) {
+            dummy.push(value);
+          }
+        });
+      }
+      this.results = dummy;
+    },
+    filterDate(valueReturn) {
+      let dummy = [];
+      _.forEach(this.originalResults, (value) => {
+        let formattedValue = moment(String(value.published_timestamp)).format(
+          "MM/DD/YYYY"
+        );
+        if (formattedValue === valueReturn) {
+          dummy.push(value);
+        }
+      });
+      this.results = dummy;
+    },
   },
   mounted() {
-    eventBus.$on('modelVal', (value)=>{
-      this.sourcesVal = value
-      if(this.sourcesVal === 'CNBC') {
-        this.filterSource('CNBC')
-      } else {
-        this.filterSource('NY')
+    eventBus.$on("modelVal", (value) => {
+      this.sourcesVal = value;
+      if (value === "CNBC") {
+        this.filterSource("CNBC");
+      } else if (value === "Newyork Times") {
+        this.filterSource("NY");
       }
-    })
+    });
+    eventBus.$on("modelValAuthors", (value) => {
+      this.authorsval = value;
+      this.filterAuth();
+    });
+    eventBus.$on("dateFilter", (value) => {
+      this.filterDate(value);
+    });
   },
   computed: {
     checkSwitchValue() {
-      return this.switchValue ? "Show Dashboard" : "Hide Dashboard and show filters";
+      return this.switchValue
+        ? "Show Dashboard"
+        : "Hide Dashboard and show filters";
     },
   },
 };
