@@ -1,43 +1,73 @@
 <template>
   <div class="col-sm-12">
-    <div class="card mb-2" v-for="(item, index) in paginatedItems" :key="index">
-      <!-- <div class="card-header float-start">{{ result.headline }}</div> -->
+    <div class="card" v-for="item in paginatedItems" :key="item.url">
       <div class="card-body">
-        <h5 class="card-title">
-          <a target="_blank" class="float-start" :href="item.url">
-            {{ item.headline }}
-          </a>
-        </h5>
-        <br />
-        <p class="card-text float-start">{{ item.body }}</p>
-        <br />
-        <hr />
-        <div class="row">
-          <div class="col-sm-6">
-            {{ item.source }}
+        <div class="text-center">
+          <img
+            v-if="item.source === 'CNBC'"
+            class="m-3 rounded-circle thumb-xl"
+            src="../../HTML/assets/images/brand-logo/cnbc.jpg"
+            alt=""
+          />
+          <img
+            v-else-if="item.source === 'Newyork Times'"
+            class="m-3 rounded-circle thumb-xl"
+            src="../../HTML/assets/images/brand-logo/ny.png"
+            alt=""
+          />
+          <div class="">
+            <small class="text-muted"
+              ><a target="_blank" :href="item.url">
+                {{ item.headline }}
+              </a>
+            </small>
           </div>
-          <div class="col-sm-6">
-            {{ item.timestamp }}
+          <a
+            href="#"
+            class="me-3 text-warning"
+            v-for="authors in item.authors"
+            :key="authors"
+            >{{ authors }} <span>&#183;</span></a
+          >
+          <p class="text-muted px-3">
+            {{ item.body }}
+          </p>
+          <div class="mb-3">
+            <a href="#" class="me-3 text-warning">{{
+              item.published_timestamp | formatDate
+            }}</a>
+            <a href="#" class="me-3 text-warning">2843 Followers</a>
+            <a href="#" class="text-warning">295 Following</a>
           </div>
+          <button type="button" class="btn btn-sm btn-soft-primary">
+            More Detail
+          </button>
         </div>
       </div>
+      <!--end card-body-->
     </div>
-    <br />
     <b-pagination
       @change="onPageChanged"
       :total-rows="totalRows"
       :per-page="perPage"
       v-model="currentPage"
       class="my-0"
+      v-if="results.length"
     ></b-pagination>
   </div>
 </template>
 
 <script>
+import moment from "moment";
 export default {
   Name: "Card",
   props: {
     results: Array,
+  },
+  filters: {
+    formatDate(value) {
+      return moment(String(value)).format("MM/DD/YYYY");
+    },
   },
   component: {},
   data() {
@@ -52,6 +82,7 @@ export default {
   watch: {
     results() {
       this.paginatedItems = this.results;
+      this.totalRows = this.results.length
     },
   },
   computed: {
