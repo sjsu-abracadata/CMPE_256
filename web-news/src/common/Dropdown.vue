@@ -5,8 +5,11 @@
         class="form-select"
         id="inputGroupSelect04"
         aria-label="Example select with button addon"
+        v-model="modelVal"
+        @change="emitValue()"
       >
-        <option v-for="options in optionslist" :key="options">
+        <option>Select</option>
+        <option v-for="(options) in optionslist" :key="options">
           {{ options }}
         </option>
       </select>
@@ -15,14 +18,28 @@
 </template>
 
 <script>
+import eventBus from '../common/Eventbus'
 export default {
   Name: "Dropdown",
   props: {
     optionslist: Array,
+    model: String
+  },
+  methods: {
+    emitValue () {
+      eventBus.$emit('modelVal', this.modelVal)
+    }
   },
   data() {
-    return {};
+    return {
+      modelVal: this.model
+    };
   },
+  watch: {
+    model () {
+      this.modelVal = this.model
+    }
+  }
 };
 </script>
 
