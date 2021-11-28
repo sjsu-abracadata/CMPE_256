@@ -3,7 +3,7 @@ from mongoengine import Document, StringField, \
 
 
 # News Article Document Class
-class NewsArticle(Document):
+class NewsArticles(Document):
     source_name = StringField(required=True)
     article_title = StringField(required=True)
     article_authors = ListField()
@@ -34,5 +34,7 @@ class ProcessedNewsArticle(Document):
     vader_sentiment = DictField()
     flair_sentiment = DictField()
     transformers_sentiment = DictField()
+    overall_sentiment = StringField()
+    overall_article_keywords = ListField()
     meta = {'allow_inheritance': True}
 

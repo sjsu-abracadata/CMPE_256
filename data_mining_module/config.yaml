@@ -9,4 +9,4 @@ cnbc_database_details:
   db_name : 'cnbc'
   user_name : 'dataminingadmin'
   password : 'fall2021project'
-  collection_name: 'news_article'
+  collection_name: 'news_articles'
