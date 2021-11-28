@@ -61,14 +61,34 @@ if __name__ == '__main__':
     with open('config.yaml') as f:
         config_dict = yaml.safe_load(f)
 
+    '''
     # list all the files
+    nytimes_files = glob.glob(
+        "/Users/aryanjadon/Desktop/256_Final_Project/CMPE_256/data_mining_module/data_collection/sitemap/newyork_times/*.xlsx")
+
+    for current_file in nytimes_files:
+        try:
+            print(current_file)
+            current_dataframe = pd.read_excel(current_file)
+            add_records_to_database(config_dict['newyork_times_database_details'],
+                                    "Newyork Times",
+                                    current_dataframe)
+        except Exception as e:
+            print(e)
+    '''
+
+    '''
     cnbc_files = glob.glob(
-        "/Users/aryanjadon/Desktop/Data-Mining/data_mining_module/data_collection/sitemap/newyork_times/*.xlsx")
+        "/Users/aryanjadon/Desktop/256_Final_Project/CMPE_256/data_mining_module/data_collection/sitemap/cnbc/*.xlsx")
 
     for current_file in cnbc_files:
-        current_dataframe = pd.read_excel(current_file)
-        print(current_dataframe.shape)
-        add_records_to_database(config_dict['newyork_times_database_details'],
-                                "Newyork Times",
-                                current_dataframe)
+        try:
+            print(current_file)
+            current_dataframe = pd.read_excel(current_file)
+            add_records_to_database(config_dict['cnbc_database_details'],
+                                    "CNBC",
+                                    current_dataframe)
+        except Exception as e:
+            print(e)
+    '''
 
