@@ -3,7 +3,7 @@ from mongoengine import Document, StringField, \
 
 
 # News Article Document Class
-class NewsArticle(Document):
+class NewsArticles(Document):
     source_name = StringField(required=True)
     article_title = StringField(required=True)
     article_authors = ListField()
