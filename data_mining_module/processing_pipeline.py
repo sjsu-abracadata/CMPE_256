@@ -87,6 +87,6 @@ if __name__ == '__main__':
         config_dict = yaml.safe_load(f)
 
     # process_database_records(config_dict['newyork_times_database_details'])
-    # process_database_records(config_dict['cnbc_database_details'])
+    process_database_records(config_dict['cnbc_database_details'])
 
 
