@@ -45,6 +45,7 @@ def process_records(database_connection_params):
                     temp_list = document['cleaned_recognized_entity']['ORG']
                     all_keywords += temp_list
 
+                # converting in to a lower case and then adding it as a dict to improve searching speed
                 document.overall_article_keywords = list(set(all_keywords))
 
                 document.save()
