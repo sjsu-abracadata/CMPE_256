@@ -32,6 +32,7 @@ def process_database_records(database_connection_params):
     # go through all the documents
     for document in article_collection.find():
         try:
+            print(document['article_url'])
             if not check_record_exist(database_connection_params,
                                       document['article_url'],
                                       processed=True):
@@ -86,7 +87,7 @@ if __name__ == '__main__':
     with open('config.yaml') as f:
         config_dict = yaml.safe_load(f)
 
-    # process_database_records(config_dict['newyork_times_database_details'])
-    process_database_records(config_dict['cnbc_database_details'])
+    process_database_records(config_dict['newyork_times_database_details'])
+    # process_database_records(config_dict['cnbc_database_details'])
 
 

@@ -36,5 +36,6 @@ class ProcessedNewsArticle(Document):
     transformers_sentiment = DictField()
     overall_sentiment = StringField()
     overall_article_keywords = ListField()
+    overall_article_keywords_dict = DictField()
     meta = {'allow_inheritance': True}
 
