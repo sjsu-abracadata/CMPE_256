@@ -6,7 +6,7 @@ from collections import Counter
 from mongoengine import connect, disconnect
 import yaml
 
-url = "http://6f70-34-68-164-131.ngrok.io/api/analyze"
+url = "http://9629-35-201-145-88.ngrok.io/api/analyze"
 
 
 def process_records_api(database_connection_params):
@@ -22,13 +22,12 @@ def process_records_api(database_connection_params):
             password=database_connection_params['password'],
             host=database_connection_params['connection_string'])
 
-    for document in NewsArticles.objects:
+    for document in NewsArticles.objects[100:500]:
         # if not document.overall_article_keywords:
         try:
             print(document['article_url'])
             logging.debug(document['article_url'])
-            current_document = ProcessedNewsArticle.objects(cleaned_article_url=document['article_url'])[0]
-
+            current_document = ProcessedNewsArticle.objects(cleaned_article_url=document['article_url']).first()
             payload = {'analyze_text': document['article_text']}
             files = []
             headers = {}
