@@ -11,8 +11,8 @@ postgres_database:
 newyork_times:
   connection_string: 'mongodb+srv://dataminingadmin:fall2021project@cluster0.ngjps.mongodb.net/newyorktimes'
   database_name: 'newyorktimes'
-  collection_name: 'news_articles'
+  collection_name: 'processed_news_article'
 cnbc:
   connection_string: 'mongodb+srv://dataminingadmin:fall2021project@cluster1.ngjps.mongodb.net/cnbc'
   database_name: 'cnbc'
-  collection_name: 'news_article'
+  collection_name: 'processed_news_article'

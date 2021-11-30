@@ -162,11 +162,10 @@
                                                 <div class="col">
                                                     <p class="text-dark mb-0 fw-semibold">Total Records</p>
                                                     <h3 class="m-0">{{total_records}}</h3>
-                                                    <p class="mb-0 text-truncate text-muted"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Records Today</p>
                                                 </div>
                                                 <div class="col-auto align-self-center">
                                                     <div class="report-main-icon bg-light-alt">
-                                                        <i data-feather="users" class="align-self-center text-muted icon-sm"></i>  
+                                                        <i data-feather="activity" class="align-self-center text-muted icon-sm"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -179,8 +178,7 @@
                                             <div class="row d-flex justify-content-center">                                                
                                                 <div class="col">
                                                     <p class="text-dark mb-0 fw-semibold">Newyork Times Articles</p>
-                                                     <h3 class="m-0">{{total_records}}</h3>
-                                                    <p class="mb-0 text-truncate text-muted"><span class="text-success"><i class="mdi mdi-trending-up"></i>1.5%</span> New Articles </p>
+                                                     <h3 class="m-0">{{newyork_times_records}}</h3>
                                                 </div>
                                                 <div class="col-auto align-self-center">
                                                     <div class="report-main-icon bg-light-alt">
@@ -197,13 +195,7 @@
                                             <div class="row d-flex justify-content-center">                                                
                                                 <div class="col">
                                                     <p class="text-dark mb-0 fw-semibold">CNBC Articles</p>
-                                                    <h3 class="m-0">$2400</h3>
-                                                    <p class="mb-0 text-truncate text-muted"><span class="text-danger">
-                                                        <i class="mdi mdi-trending-down"></i>
-                                                        35%
-                                                    </span>
-                                                        New Articles
-                                                    </p>
+                                                    <h3 class="m-0">{{cnbc_records}}</h3>
                                                 </div>
                                                 <div class="col-auto align-self-center">
                                                     <div class="report-main-icon bg-light-alt">
@@ -214,49 +206,19 @@
                                         </div><!--end card-body--> 
                                     </div><!--end card--> 
                                 </div> <!--end col-->
-                                <div class="col-md-6 col-lg-3">
-                                    <div class="card report-card">
-                                        <div class="card-body">
-                                            <div class="row d-flex justify-content-center">
-                                                <div class="col">
-                                                    <p class="text-dark mb-0 fw-semibold">Twitter Feed</p>
-                                                    <h3 class="m-0">85000</h3>
-                                                    <p class="mb-0 text-truncate text-muted"><span class="text-success"><i class="mdi mdi-trending-up"></i>10.5%</span> New Articles</p>
-                                                </div>
-                                                <div class="col-auto align-self-center">
-                                                    <div class="report-main-icon bg-light-alt">
-                                                        <i data-feather="activity" class="align-self-center text-muted icon-sm"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div><!--end card-body-->
-                                    </div><!--end card-->
-                                </div> <!--end col-->
                             </div><!--end row-->
                             <div class="card">
                                 <div class="card-header">
                                     <div class="row align-items-center">
                                         <div class="col">                      
-                                            <h4 class="card-title">Audience Overview</h4>                      
-                                        </div><!--end col-->
-                                        <div class="col-auto"> 
-                                            <div class="dropdown">
-                                                <a href="#" class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                   This Year<i class="las la-angle-down ms-1"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Today</a>
-                                                    <a class="dropdown-item" href="#">Last Week</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">This Year</a>
-                                                </div>
-                                            </div>               
+                                            <h4 class="card-title">Articles Overview</h4>
                                         </div><!--end col-->
                                     </div>  <!--end row-->                                  
                                 </div><!--end card-header-->
                                 <div class="card-body">
                                     <div class="">
                                         <div id="ana_dash_1" class="apex-charts"></div>
+
                                     </div> 
                                 </div><!--end card-body--> 
                             </div><!--end card--> 
@@ -284,18 +246,18 @@
                                         <table class="table border-dashed mb-0">
                                             <thead>
                                             <tr>
-                                                <th>Device</th>
-                                                <th class="text-end">Sassions</th>
-                                                <th class="text-end">Day</th>
-                                                <th class="text-end">Week</th>
+                                                <th>Source Name</th>
+                                                <th class="text-end">Articles</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr>
-                                                <td>Dasktops</td>
-                                                <td class="text-end">1843</td>
-                                                <td class="text-end">-3</td>
-                                                <td class="text-end">-12</td>
+                                                <td>New York Times</td>
+                                                <td class="text-end">{{newyork_times_records}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>CNBC</td>
+                                                <td class="text-end">{{cnbc_records}}</td>
                                             </tr>
                                             
                                             </tbody>
