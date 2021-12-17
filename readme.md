@@ -17,6 +17,7 @@
 7. report - contains the reports diagrams 
 8. screenshots - contains the client side screenshots
 
+## Notebook link - https://github.com/sjsu-abracadata/CMPE_256/blob/main/notebooks/Sentiment%20Analysis/Transformers%20Model.ipynb
 
 Repo with model weights - https://bitbucket.org/aryanjadon/advance-data-mining-project-model-files/src/master/
 
